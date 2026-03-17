@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_power_plants
+    columns:
+      - name: plant_id
+        tests:
+          - not_null
+          - unique
+
+      - name: primary_fuel
+        tests:
+          - not_null
