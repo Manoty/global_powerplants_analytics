@@ -37,3 +37,7 @@ models:
       +materialized: view
     marts:
       +materialized: table
+
+seeds:
+  power_plants_analytics:
+    +quote_columns: false      
