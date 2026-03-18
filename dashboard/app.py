@@ -11,14 +11,14 @@ conn = duckdb.connect("dev.duckdb")
 
 # --- LOAD DATA ---
 @st.cache_data
-def load_data():
-    query = """
-        SELECT *
-        FROM main.fct_power_generation
-    """
-    return conn.execute(query).df()
+def load_data(year):
+    return conn.execute(f"""
+        SELECT * FROM main.fct_power_generation
+        WHERE year = {year}
+    """).df()
 
-df = load_data()
+year = st.sidebar.selectbox("Year", options=list(range(2013, 2020)), index=6)
+df = load_data(year)
 
 # --- TITLE ---
 st.title("⚡ Global Power Generation Dashboard")
