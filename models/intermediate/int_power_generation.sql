@@ -45,6 +45,9 @@ with_estimates as (
             when 2015 then estimated_generation_gwh_2015
             when 2016 then estimated_generation_gwh_2016
             when 2017 then estimated_generation_gwh_2017
+            when 2016 then estimated_generation_gwh_2018
+            when 2017 then estimated_generation_gwh_2019
+
         end as estimated_generation_gwh
 
     from unpivoted u
