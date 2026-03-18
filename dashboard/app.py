@@ -91,7 +91,19 @@ top_plants = (
 fig3 = px.bar(top_plants, x="generation_gwh", y="plant_name", orientation="h")
 st.plotly_chart(fig3, use_container_width=True)
 
-# --- CHART 4: Data Quality ---
+# --- CHART 4: Top countries by capacity ---
+st.subheader("🏭 Top countries by capacity ")
+
+country_capacity = (
+    filtered_df.groupby("country_name")["capacity_mw"]
+    .sum().reset_index()
+    .sort_values("capacity_mw", ascending=False)
+    .head(15)
+)
+fig_cap = px.bar(country_capacity, x="country_name", y="capacity_mw", title="Top Countries by Installed Capacity (MW)")
+st.plotly_chart(fig_cap, use_container_width=True)
+
+# --- CHART 5: Data Quality ---
 st.subheader("🧠 Data Quality (Source of Generation Data)")
 
 quality_df = (
