@@ -77,8 +77,16 @@ fuel_df = (
     .reset_index()
 )
 
+# --- CHART 3: Generation Trend by Fuel Type ---
+st.subheader("🔥 Generation Trend by Fuel Type")
+
 fig2 = px.pie(fuel_df, names="primary_fuel", values="generation_gwh")
 st.plotly_chart(fig2, use_container_width=True)
+
+trend_df = filtered_df.groupby(["year", "primary_fuel"])["generation_gwh"].sum().reset_index()
+fig_trend = px.line(trend_df, x="year", y="generation_gwh", color="primary_fuel", markers=True,
+              title="Generation Trend by Fuel Type")
+st.plotly_chart(fig_trend, use_container_width=True)
 
 # --- CHART 3: Top Plants ---
 st.subheader("🏭 Top Power Plants")
