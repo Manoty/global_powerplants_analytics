@@ -45,12 +45,15 @@ filtered_df = df[
 
 # --- KPI SECTION ---
 
+renewable_pct = (
+    filtered_df[filtered_df["primary_fuel"].isin(renewables)]["generation_gwh"].sum()
+    / filtered_df["generation_gwh"].sum() * 100
+)
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total Generation (GWh)", f"{filtered_df['generation_gwh'].sum():,.0f}")
 col2.metric("Total Capacity (MW)", f"{filtered_df['capacity_mw'].sum():,.0f}")
 col3.metric("Number of Plants", f"{filtered_df['plant_id'].nunique():,}")
-col4.metric("Countries", filtered_df["country_name"].nunique())
-
+col4.metric("Renewable Share", f"{renewable_pct:.1f}%")
 
 
 
