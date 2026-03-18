@@ -1,8 +1,15 @@
 
+# dbt artifacts
 target/
 dbt_packages/
 logs/
 
-
+# DuckDB database files
 *.duckdb
 *.duckdb.wal
+*.duckdb.tmp
+dev.duckdb
+
+# Environment and OS
+.env
+.DS_Store

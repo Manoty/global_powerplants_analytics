@@ -7,15 +7,14 @@ import plotly.express as px
 st.set_page_config(page_title="Global Power Plants Dashboard", layout="wide")
 
 # --- DB CONNECTION ---
-conn = duckdb.connect("power_plants.duckdb")
-conn.execute("SET schema 'main'")
+conn = duckdb.connect("dev.duckdb")
 
 # --- LOAD DATA ---
 @st.cache_data
 def load_data():
     query = """
         SELECT *
-        FROM fct_power_generation
+        FROM main.fct_power_generation
     """
     return conn.execute(query).df()
 
@@ -104,3 +103,6 @@ quality_df = (
 
 fig4 = px.bar(quality_df, x="generation_source", y="count")
 st.plotly_chart(fig4, use_container_width=True)
+
+with st.expander("📄 View Raw Data"):
+    st.dataframe(filtered_df, use_container_width=True)
