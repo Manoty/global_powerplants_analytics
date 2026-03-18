@@ -4,13 +4,13 @@ select
     country_code,
     country_name,
     primary_fuel,
+    latitude,
+    longitude,
     year,
-
     capacity_mw,
+    generation_gwh,
+    -- remove the bare generation_source here, keep only the CASE version below
 
-    generation_gwh_final as generation_gwh,
-
-    -- 🔥 standout feature
     case
         when generation_gwh is not null then 'actual'
         when estimated_generation_gwh is not null then 'estimated'

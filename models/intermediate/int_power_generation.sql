@@ -8,7 +8,7 @@ with base as (
 unpivoted as (
 
     select plant_id, plant_name, country_code, country_name, primary_fuel, capacity_mw, 2013 as year,
-           generation_gwh_2013 as generation_gwh,
+           generation_gwh_2013 as generation_gwh, latitude, longitude,
            null as estimated_generation_gwh
     from base
 
