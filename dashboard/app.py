@@ -170,4 +170,12 @@ fig4 = px.bar(quality_df, x="generation_source", y="count")
 st.plotly_chart(fig4, use_container_width=True)
 
 with st.expander("📄 View Raw Data"):
-    st.dataframe(filtered_df, use_container_width=True)
+    st.dataframe(
+        filtered_df.sort_values("generation_gwh", ascending=False),
+        use_container_width=True,
+        column_config={
+            "generation_gwh": st.column_config.NumberColumn("Generation (GWh)", format="%.1f"),
+            "capacity_mw": st.column_config.NumberColumn("Capacity (MW)", format="%.1f"),
+            "utilization_rate": st.column_config.ProgressColumn("Utilization %", min_value=0, max_value=100),
+        }
+    )
