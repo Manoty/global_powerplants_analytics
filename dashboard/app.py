@@ -123,6 +123,16 @@ country_capacity = (
 fig_cap = px.bar(country_capacity, x="country_name", y="capacity_mw", title="Top Countries by Installed Capacity (MW)")
 st.plotly_chart(fig_cap, use_container_width=True)
 
+# --- CHART 5: Capacity Utilization Rate ---
+st.subheader("🏭 Capacity Utilization Rate ")
+
+filtered_df["utilization_rate"] = (
+    filtered_df["generation_gwh"] / (filtered_df["capacity_mw"] * 8.76)
+).clip(0, 1) * 100  # 8760 hours in a year
+
+fig = px.box(filtered_df, x="primary_fuel", y="utilization_rate",
+             title="Capacity Utilization by Fuel Type (%)")
+
 # --- CHART 6: Data Quality ---
 st.subheader("🧠 Data Quality (Source of Generation Data)")
 
