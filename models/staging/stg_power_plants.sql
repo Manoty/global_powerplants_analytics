@@ -34,6 +34,12 @@ cleaned as (
         cast(generation_gwh_2018 as double) as generation_gwh_2018,
         cast(generation_gwh_2019 as double) as generation_gwh_2019,
 
+        cast(estimated_generation_gwh_2013 as double) as estimated_generation_gwh_2013,
+        cast(estimated_generation_gwh_2014 as double) as estimated_generation_gwh_2014,
+        cast(estimated_generation_gwh_2015 as double) as estimated_generation_gwh_2015,
+        cast(estimated_generation_gwh_2016 as double) as estimated_generation_gwh_2016,
+        cast(estimated_generation_gwh_2017 as double) as estimated_generation_gwh_2017,
+
         -- metadata
         lower(owner) as owner,
         lower(source) as source
