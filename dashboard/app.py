@@ -51,18 +51,7 @@ col2.metric("Number of Plants", filtered_df["plant_id"].nunique())
 col3.metric("Countries", filtered_df["country_name"].nunique())
 
 
-st.subheader("🗺️ Power Plants Map")
-fig_map = px.scatter_geo(
-    filtered_df,
-    lat="latitude",
-    lon="longitude",
-    color="primary_fuel",
-    size="capacity_mw",
-    hover_name="plant_name",
-    hover_data=["country_name", "capacity_mw"],
-    projection="natural earth"
-)
-st.plotly_chart(fig_map, use_container_width=True)
+
 
 # --- CHART 1: Generation Over Time ---
 st.subheader("📈 Generation Over Time")
