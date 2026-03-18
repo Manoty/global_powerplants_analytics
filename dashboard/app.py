@@ -43,8 +43,10 @@ filtered_df = df[
     (df["primary_fuel"].isin(fuels))
 ]
 
-# --- KPI SECTION ---
+# --- RENEWABLES LIST (define before KPIs) ---
+renewables = ["Solar", "Wind", "Hydro", "Geothermal", "Wave and Tidal", "Biomass"]
 
+# --- KPI SECTION ---
 renewable_pct = (
     filtered_df[filtered_df["primary_fuel"].isin(renewables)]["generation_gwh"].sum()
     / filtered_df["generation_gwh"].sum() * 100
