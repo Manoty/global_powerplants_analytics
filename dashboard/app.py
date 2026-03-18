@@ -8,6 +8,7 @@ st.set_page_config(page_title="Global Power Plants Dashboard", layout="wide")
 
 # --- DB CONNECTION ---
 conn = duckdb.connect("power_plants.duckdb")
+conn.execute("SET schema 'main'")
 
 # --- LOAD DATA ---
 @st.cache_data
