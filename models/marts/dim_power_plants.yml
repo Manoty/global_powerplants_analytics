@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: dim_power_plants
+    columns:
+      - name: plant_id
+        tests:
+          - not_null
+          - unique
