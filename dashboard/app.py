@@ -123,7 +123,18 @@ country_capacity = (
 fig_cap = px.bar(country_capacity, x="country_name", y="capacity_mw", title="Top Countries by Installed Capacity (MW)")
 st.plotly_chart(fig_cap, use_container_width=True)
 
-# --- CHART 5: Capacity Utilization Rate ---
+# --- CHART 6: Renewable vs Non-Renewable ---
+st.subheader("🏭 Renewable vs Non-Renewable Generation")
+
+renewables = ["Solar", "Wind", "Hydro", "Geothermal", "Wave and Tidal", "Biomass"]
+filtered_df["energy_type"] = filtered_df["primary_fuel"].apply(
+    lambda x: "Renewable" if x in renewables else "Non-Renewable"
+)
+fig_renew = px.pie(filtered_df, names="energy_type", values="generation_gwh",
+             title="Renewable vs Non-Renewable Generation")
+st.plotly_chart(fig_renew, use_container_width=True)
+
+# --- CHART 7: Capacity Utilization Rate ---
 st.subheader("🏭 Capacity Utilization Rate ")
 
 filtered_df["utilization_rate"] = (
@@ -134,7 +145,7 @@ fig_util = px.box(filtered_df, x="primary_fuel", y="utilization_rate",
              title="Capacity Utilization by Fuel Type (%)")
 st.plotly_chart(fig_util, use_container_width=True)
 
-# --- CHART 6: Data Quality ---
+# --- CHART 8: Data Quality ---
 st.subheader("🧠 Data Quality (Source of Generation Data)")
 
 quality_df = (
