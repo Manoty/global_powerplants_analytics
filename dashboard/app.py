@@ -32,6 +32,11 @@ countries = st.sidebar.multiselect(
     default=df["country_name"].dropna().unique()[:5]
 )
 
+
+energy_type = st.sidebar.radio("Energy Type", ["All", "Renewable", "Non-Renewable"])
+if energy_type != "All":
+    df = df[df["energy_type"] == energy_type]
+    
 fuels = st.sidebar.multiselect(
     "Select Fuel Type",
     options=df["primary_fuel"].dropna().unique(),
