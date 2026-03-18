@@ -44,11 +44,12 @@ filtered_df = df[
 ]
 
 # --- KPI SECTION ---
-col1, col2, col3 = st.columns(3)
 
-col1.metric("Total Generation (GWh)", int(filtered_df["generation_gwh"].sum()))
-col2.metric("Number of Plants", filtered_df["plant_id"].nunique())
-col3.metric("Countries", filtered_df["country_name"].nunique())
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Total Generation (GWh)", f"{filtered_df['generation_gwh'].sum():,.0f}")
+col2.metric("Total Capacity (MW)", f"{filtered_df['capacity_mw'].sum():,.0f}")
+col3.metric("Number of Plants", f"{filtered_df['plant_id'].nunique():,}")
+col4.metric("Countries", filtered_df["country_name"].nunique())
 
 
 
