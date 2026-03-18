@@ -128,10 +128,11 @@ st.subheader("🏭 Capacity Utilization Rate ")
 
 filtered_df["utilization_rate"] = (
     filtered_df["generation_gwh"] / (filtered_df["capacity_mw"] * 8.76)
-).clip(0, 1) * 100  # 8760 hours in a year
+).clip(0, 1) * 100
 
-fig = px.box(filtered_df, x="primary_fuel", y="utilization_rate",
+fig_util = px.box(filtered_df, x="primary_fuel", y="utilization_rate",
              title="Capacity Utilization by Fuel Type (%)")
+st.plotly_chart(fig_util, use_container_width=True)
 
 # --- CHART 6: Data Quality ---
 st.subheader("🧠 Data Quality (Source of Generation Data)")
