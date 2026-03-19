@@ -20,11 +20,19 @@ def load_data():
 
 df = load_data()
 
+# --- DERIVE COLUMNS EARLY ---
+renewables = ["Solar", "Wind", "Hydro", "Geothermal", "Wave and Tidal", "Biomass"]
+df["energy_type"] = df["primary_fuel"].apply(
+    lambda x: "Renewable" if x in renewables else "Non-Renewable"
+)
+
 # --- TITLE ---
 st.title("⚡ Global Power Generation Dashboard")
 
 # --- SIDEBAR FILTERS ---
 st.sidebar.header("Filters")
+
+energy_type = st.sidebar.radio("Energy Type", ["All", "Renewable", "Non-Renewable"])
 
 countries = st.sidebar.multiselect(
     "Select Country",
@@ -32,22 +40,19 @@ countries = st.sidebar.multiselect(
     default=df["country_name"].dropna().unique()[:5]
 )
 
-
-energy_type = st.sidebar.radio("Energy Type", ["All", "Renewable", "Non-Renewable"])
-if energy_type != "All":
-    df = df[df["energy_type"] == energy_type]
-    
 fuels = st.sidebar.multiselect(
     "Select Fuel Type",
     options=df["primary_fuel"].dropna().unique(),
     default=df["primary_fuel"].dropna().unique()
 )
 
+# --- APPLY FILTERS ---
 filtered_df = df[
     (df["country_name"].isin(countries)) &
     (df["primary_fuel"].isin(fuels))
 ]
-
+if energy_type != "All":
+    filtered_df = filtered_df[filtered_df["energy_type"] == energy_type]
 # --- RENEWABLES LIST (define before KPIs) ---
 renewables = ["Solar", "Wind", "Hydro", "Geothermal", "Wave and Tidal", "Biomass"]
 
