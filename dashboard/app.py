@@ -119,7 +119,7 @@ fig3 = px.bar(top_plants, x="generation_gwh", y="plant_name", orientation="h")
 st.plotly_chart(fig3, use_container_width=True)
 
 
-# --- CHART 4: TCapacity vs Generation scatter ---
+# --- CHART 4: Capacity vs Generation scatter ---
 st.subheader("🏭 Capacity vs Generation scatter ")
 
 fig_scatter = px.scatter(
