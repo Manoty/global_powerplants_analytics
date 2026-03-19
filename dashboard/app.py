@@ -14,7 +14,18 @@ st.markdown("""
             background-color: #0f1117;
         }
         [data-testid="stSidebar"] {
-            background-color: #1c1e26;
+            background-color: #1a2744;
+            border-right: 1px solid #00d4aa33;
+        }
+        [data-testid="stSidebar"] * {
+            color: #e8edf5 !important;
+        }
+        [data-testid="stSidebar"] .stRadio label,
+        [data-testid="stSidebar"] .stMultiSelect label,
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3 {
+            color: #00d4aa !important;
         }
         [data-testid="stMetric"] {
             background-color: #1c1e26;
@@ -30,6 +41,12 @@ st.markdown("""
         }
         h1, h2, h3 {
             color: #00d4aa;
+        }
+        .chart-description {
+            color: #8892a4;
+            font-size: 0.85rem;
+            margin-top: -12px;
+            margin-bottom: 8px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -126,8 +143,13 @@ col2.metric("Total Capacity (MW)", f"{filtered_df['capacity_mw'].sum():,.0f}")
 col3.metric("Number of Plants", f"{filtered_df['plant_id'].nunique():,}")
 col4.metric("Renewable Share", f"{renewable_pct:.1f}%")
 
+# --- DESCRIPTION HELPER ---
+def chart_caption(text):
+    st.markdown(f'<p class="chart-description">{text}</p>', unsafe_allow_html=True)
+
 # --- CHART 1: Generation Over Time ---
 st.subheader("📈 Generation Over Time")
+chart_caption("Total electricity generation (GWh) aggregated across all selected countries and fuel types per year.")
 time_df = (
     filtered_df
     .groupby("year")["generation_gwh"]
@@ -145,6 +167,7 @@ st.plotly_chart(fig1, use_container_width=True)
 
 # --- CHART 2: Energy Mix by Fuel Type ---
 st.subheader("🔥 Energy Mix by Fuel Type")
+chart_caption("Proportional breakdown of total generation by fuel source. Shows which energy types dominate the current selection.")
 fuel_df = (
     filtered_df
     .groupby("primary_fuel")["generation_gwh"]
@@ -161,6 +184,7 @@ st.plotly_chart(fig2, use_container_width=True)
 
 # --- CHART 3: Generation Trend by Fuel Type ---
 st.subheader("📊 Generation Trend by Fuel Type")
+chart_caption("Year-on-year generation trend broken down by fuel type. Useful for spotting the rise of renewables vs fossil fuels over time.")
 trend_df = filtered_df.groupby(["year", "primary_fuel"])["generation_gwh"].sum().reset_index()
 fig_trend = px.line(
     trend_df, x="year", y="generation_gwh", color="primary_fuel", markers=True,
@@ -173,6 +197,7 @@ st.plotly_chart(fig_trend, use_container_width=True)
 
 # --- CHART 4: Top Power Plants ---
 st.subheader("🏭 Top 10 Power Plants by Generation")
+chart_caption("The highest generating individual plants in the current filter selection. Dominated by large hydro and nuclear facilities.")
 top_plants = (
     filtered_df
     .groupby("plant_name")["generation_gwh"]
@@ -192,6 +217,7 @@ st.plotly_chart(fig3, use_container_width=True)
 
 # --- CHART 5: Capacity vs Generation ---
 st.subheader("⚡ Capacity vs Actual Generation")
+chart_caption("Each dot is a power plant. Plants far below the diagonal are underutilising their installed capacity — common in solar and wind.")
 fig_scatter = px.scatter(
     filtered_df,
     x="capacity_mw", y="generation_gwh",
@@ -207,6 +233,7 @@ st.plotly_chart(fig_scatter, use_container_width=True)
 
 # --- CHART 6: Top Countries by Capacity ---
 st.subheader("🌍 Top Countries by Installed Capacity")
+chart_caption("Total installed power capacity (MW) by country. Reflects infrastructure investment, not necessarily actual output.")
 country_capacity = (
     filtered_df.groupby("country_name")["capacity_mw"]
     .sum().reset_index()
@@ -224,6 +251,7 @@ st.plotly_chart(fig_cap, use_container_width=True)
 
 # --- CHART 7: Renewable vs Non-Renewable ---
 st.subheader("🌱 Renewable vs Non-Renewable Generation")
+chart_caption("Share of clean energy (Solar, Wind, Hydro, Geothermal, Biomass) vs fossil fuels in the current selection.")
 fig_renew = px.pie(
     filtered_df, names="energy_type", values="generation_gwh",
     title="Renewable vs Non-Renewable Generation",
@@ -234,6 +262,7 @@ st.plotly_chart(fig_renew, use_container_width=True)
 
 # --- CHART 8: Capacity Utilization Rate ---
 st.subheader("📉 Capacity Utilization by Fuel Type")
+chart_caption("How efficiently each fuel type converts installed capacity into actual generation. Nuclear and gas typically run highest; solar and wind lowest due to intermittency.")
 fig_util = px.box(
     filtered_df, x="primary_fuel", y="utilization_rate",
     title="Capacity Utilization by Fuel Type (%)",
@@ -245,6 +274,7 @@ st.plotly_chart(fig_util, use_container_width=True)
 
 # --- CHART 9: Data Quality ---
 st.subheader("🧠 Data Quality (Source of Generation Data)")
+chart_caption("Breakdown of how generation values were sourced — actual reported data, estimated figures, or imputed averages. Higher actual coverage = more reliable insights.")
 quality_df = (
     filtered_df
     .groupby("generation_source")
