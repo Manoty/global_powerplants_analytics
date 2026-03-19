@@ -6,6 +6,44 @@ import plotly.express as px
 # --- CONFIG ---
 st.set_page_config(page_title="Global Power Plants Dashboard", layout="wide")
 
+# --- THEME ---
+st.markdown("""
+    <style>
+        /* Main background */
+        .stApp {
+            background-color: #0f1117;
+        }
+        
+        /* Sidebar */
+        [data-testid="stSidebar"] {
+            background-color: #1c1e26;
+        }
+        
+        /* Metric cards */
+        [data-testid="stMetric"] {
+            background-color: #1c1e26;
+            border: 1px solid #00d4aa;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        /* Metric value color */
+        [data-testid="stMetricValue"] {
+            color: #00d4aa;
+        }
+        
+        /* Text */
+        html, body, [class*="css"] {
+            color: #ffffff;
+        }
+
+        /* Header */
+        h1, h2, h3 {
+            color: #00d4aa;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # --- DB CONNECTION ---
 conn = duckdb.connect("dev.duckdb")
 
